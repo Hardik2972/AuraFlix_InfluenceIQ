@@ -9,12 +9,6 @@ df[28] = df[28].apply(lambda x: 20 if str(x).strip().upper() == '-' else x)
 
 df[3] = df[3].astype(str).str.lower().apply(lambda x: re.sub(r'[^a-z0-9]', '', x))
 
-# Display the first 5 rows
-print(df.head())
-
-# Display the last 5 rows
-print(df.tail())
-
 institute_scores = dict(zip(df[3], df[28]))
 
 # 📌 Degree Score Mapping (Predefined)
@@ -72,3 +66,10 @@ def calculate_education_score(education_data):
     # 🔹 Final Score Calculation
     final_score = institute_score + degree_score + gpa_score
     return min(final_score, 100)  # Ensure score does not exceed 100
+
+def combined_education_score(education_data):
+    best_score = 0
+    for edu in education_data:
+        best_score = max(best_score, calculate_education_score(edu))
+
+    return round(best_score, 2)
