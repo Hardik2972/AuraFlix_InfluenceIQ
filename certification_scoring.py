@@ -1,7 +1,12 @@
 import requests
 import numpy as np
-from sklearn.feature_extraction.text import TfidfVectorizer
+import torch
+from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
+
+# Load the SentenceTransformer model
+device = "cuda" if torch.cuda.is_available() else "cpu"
+similarity_model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2", device=device)
 
 # Example Trusted Certification Issuers (Assign higher credibility)
 TRUSTED_ISSUERS = {
@@ -42,11 +47,9 @@ def verify_certification(cert_url):
     """Check if certification URL is valid through verification API."""
     try:
         response = requests.head(cert_url, timeout=5)
-        if response.status_code == 200:
-            return True
+        return response.status_code == 200
     except requests.exceptions.RequestException:
         return False
-    return False
 
 POPULAR_CERTIFICATIONS = {
     "AWS Certified Solutions Architect": 5,
@@ -82,15 +85,16 @@ def extract_text_data(profile):
     return professional_text.strip()
 
 def compute_similarity(text1, text2):
-    """Computes cosine similarity between two text fields."""
+    """Computes similarity using SentenceTransformer embeddings."""
     if not text1 or not text2:
         return 0.0  # Return 0 if either text is empty
     
-    vectorizer = TfidfVectorizer()
-    tfidf_matrix = vectorizer.fit_transform([text1, text2])
-    
-    similarity_score = cosine_similarity(tfidf_matrix[0], tfidf_matrix[1])[0][0]
-    
+    # Generate embeddings
+    embeddings = similarity_model.encode([text1, text2], convert_to_tensor=True)
+
+    # Compute cosine similarity
+    similarity_score = torch.nn.functional.cosine_similarity(embeddings[0], embeddings[1], dim=0).item()
+
     # Scale relevance weight between 0.5 and 1.5
     weight = 0.5 + similarity_score
     return min(weight, 1.5)  # Cap at 1.5
