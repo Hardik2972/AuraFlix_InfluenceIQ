@@ -54,3 +54,8 @@ urllib3==2.2.1
 uvicorn==0.34.0
 websockets==12.0
 Werkzeug==2.3.7
+torchvision
+torchaudio
+sentence-transformers
+fuzzywuzzy
+python-levenshtein
