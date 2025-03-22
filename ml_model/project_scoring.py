@@ -42,19 +42,19 @@ def check_github_repo(repo_url):
 # Function to compute credibility score for a single project
 def compute_project_score(project, user_skills, classifier, similarity_model, device):
     description = project.get('description', "").strip()
-    year = project.get('year', datetime.now().year)
+    # year = project.get('year', datetime.now().year)
     
     relevance = calculate_similarity(description, user_skills, similarity_model, device)
     _, technical_score = classify_description(description, classifier)
-    external_validation = check_github_repo(project.get('link'))
-    recency = max(1 - (datetime.now().year - year) * 0.1, 0)  # Decay over years
+    # external_validation = check_github_repo(project.get('link'))
+    # recency = max(1 - (datetime.now().year - year) * 0.1, 0)  # Decay over years
     
     # Weighted Score Calculation
     final_score = (
         0.5 * relevance +       # Increased importance of relevance
-        0.3 * technical_score + # Technical classification score
-        0.15 * (external_validation / 2) +  # Normalized GitHub activity
-        0.05 * recency          # Minimal decay effect
+        0.5 * technical_score  # + Technical classification score
+        # 0.15 * (external_validation / 2) +  # Normalized GitHub activity
+        # 0.2 * recency          # Minimal decay effect
     ) * 100  # Scale to 0-100
     
     return round(final_score, 2)
@@ -65,13 +65,16 @@ def combine_project_scores(projects, user_skills, classifier, similarity_model, 
     total_weight = 0
 
     for project in projects:
+        if not project.get('description'):
+            continue
+
         score = compute_project_score(project, user_skills, classifier, similarity_model, device)
         
         # Weight based on GitHub activity and recency
-        github_weight = check_github_repo(project.get('link'))
+        # github_weight = check_github_repo(project.get('link'))
         recency_weight = max(1 - (datetime.now().year - project.get('year', datetime.now().year)) * 0.1, 0)
         
-        weight = github_weight + recency_weight  # Total weight
+        weight = recency_weight  # Total weight
         total_weighted_score += score * (weight if weight > 0 else 1)  # Prevent zero weight multiplication
         total_weight += (weight if weight > 0 else 1)
 

@@ -134,4 +134,4 @@ def compute_total_certification_score(profile):
         credibility = compute_certification_credibility(cert)
         total_score += relevance_weight * credibility
 
-    return normalize_score(total_score)
+    return round(normalize_score(total_score), 2)
