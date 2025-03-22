@@ -14,8 +14,8 @@ PROXYCURL_URL = "https://nubela.co/proxycurl/api/v2/linkedin"
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
 # Load Models on CUDA
-similarity_model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2", device=device)
-classifier = pipeline("text-classification", model="distilbert-base-uncased", device=0 if device == "cuda" else -1)
+# similarity_model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2", device=device)
+# classifier = pipeline("text-classification", model="distilbert-base-uncased", device=0 if device == "cuda" else -1)
 
 @app.route('/get-score', methods=['GET'])
 def get_certification_score():
