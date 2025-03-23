@@ -1,0 +1,82 @@
+body,
+html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    background: linear-gradient(to bottom right, #4f46e5, #8b5cf6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-y: hidden;
+}
+/* Navbar Customization */
+.navbar {
+    background: linear-gradient(90deg, #4f46e5, #8b5cf6);
+    /* Gradient Background */
+    padding: 1rem 2rem;
+    border-bottom: 3px solid #6d28d9;
+}
+
+.navbar-brand {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: white;
+    transition: color 0.3s ease;
+}
+
+.navbar-brand:hover {
+    color: #ffeb3b;
+    /* Yellow on hover */
+}
+
+.navbar-toggler-icon {
+    filter: invert(1);
+    /* White Toggler Icon */
+}
+
+/* Search Bar Customization */
+.search-bar {
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.search-bar:hover {
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.input-group-text {
+    background: transparent;
+    border: none;
+}
+
+input.form-control {
+    border: none;
+    outline: none;
+}
+
+button.btn-outline-success {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    transition: background-color 0.3s;
+}
+
+button.btn-outline-success:hover {
+    background-color: #218838;
+}
+
+/* Filter Section Customization */
+.input-group-text svg {
+    color: #8b5cf6;
+    /* Icon Color */
+}
+
+select.form-select {
+    border-radius: 8px;
+    border: none;
+}
