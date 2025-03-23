@@ -64,12 +64,12 @@ def get_popularity_score(cert_name):
     return POPULAR_CERTIFICATIONS.get(cert_name, 2)  # Default score if not found
 
 def normalize_score(score, min_score=0, max_score=50):  # Adjust max_score based on realistic upper bound
-    """Normalize a given score to a 1-10 scale."""
+    """Normalize a given score to a 1-100 scale."""
     if score < min_score:
         return 1
     if score > max_score:
-        return 10
-    return 1 + 9 * (score - min_score) / (max_score - min_score)
+        return 100
+    return 1 + 99 * (score - min_score) / (max_score - min_score)
 
 def extract_text_data(profile):
     """Extracts summary, headline, experience as a single text block."""
