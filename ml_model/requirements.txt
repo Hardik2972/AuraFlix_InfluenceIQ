@@ -60,3 +60,4 @@ sentence-transformers
 fuzzywuzzy
 python-levenshtein
 pandas
+openpyxl
